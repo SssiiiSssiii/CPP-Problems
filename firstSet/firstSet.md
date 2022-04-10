@@ -1,6 +1,7 @@
 # Algprithm
 
-⋅⋅⋅ If x is a terminal, then FIRST(x) = { ‘x’ } ⋅⋅⋅
+⋅⋅⋅if x is a terminal, then FIRST(x) = { ‘x’ }⋅⋅⋅
+
 If x-> Є, is a production rule, then add Є to FIRST(x).
 If X->Y1 Y2 Y3….Yn is a production, 
 FIRST(X) = FIRST(Y1)
