@@ -1,2 +1,8 @@
-# CPP-Problems
-My solutions to some problems using C++
+# Algprithm
+
+If x is a terminal, then FIRST(x) = { ‘x’ }
+If x-> Є, is a production rule, then add Є to FIRST(x).
+If X->Y1 Y2 Y3….Yn is a production, 
+FIRST(X) = FIRST(Y1)
+If FIRST(Y1) contains Є then FIRST(X) = { FIRST(Y1) – Є } U { FIRST(Y2) }
+If FIRST (Yi) contains Є for all i = 1 to n, then add Є to FIRST(X).
