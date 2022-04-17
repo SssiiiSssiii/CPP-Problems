@@ -101,7 +101,6 @@ set<string> getFirstSet(string NonTerminal) {
 
 			//No repetition
 			if (firstTerminal(currentRule, productionsRules).find("$") != firstTerminal(currentRule, productionsRules).npos && countNetminalOrNonterminal(currentRule, b) >= 3) {
-				cout << 55;
 				char TerminalOrNonTerminal = currentRule[currentRule.find('>') + 2];
 				int  IndexOfTerminalOrNonTerminal = currentRule.find('>') + 2;
 				for (int i = IndexOfTerminalOrNonTerminal; i < currentRule.size(); i++) {
@@ -112,7 +111,6 @@ set<string> getFirstSet(string NonTerminal) {
 							hasEpsilon = false;
 							i += getTerminal(currentRule, i).size();
 							TerminalOrNonTerminal = currentRule[i];
-
 							break;
 						}
 						else {
