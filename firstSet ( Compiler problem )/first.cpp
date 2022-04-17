@@ -71,7 +71,7 @@ string firstTerminal(string currentRule, string productionsRules[]) {
 	}
 	return firstSet;
 }
-int countNetminalOrNonterminal(string rule, regex x) {
+int countNetminalAndNonterminal(string rule, regex x) {
 
 	sregex_iterator currentMatch(rule.begin(), rule.end(), x);
 	sregex_iterator lm;
