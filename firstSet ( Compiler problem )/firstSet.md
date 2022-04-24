@@ -33,5 +33,5 @@ EXPR -> EXPRS + id
 EXPR -> $  
 EXPRS -> id
 
-**Note** : Between Terminal or Non-Terminal only 1 space and only one space between Non-Terminal and arrow ` --> `
+**Note** : Between Terminal or Non-Terminal only 1 space and only one space between Non-Terminal and arrow ` -> `
 
