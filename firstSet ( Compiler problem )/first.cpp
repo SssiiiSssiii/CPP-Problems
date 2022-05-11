@@ -6,7 +6,6 @@
 #include <cstring>
 #include <algorithm>
 #include <set>
-#include <regex>
 using namespace std;
 
 int theNubmerOfRules;
@@ -68,24 +67,6 @@ string firstTerminal(string currentRule, string productionsRules[]) {
 	}
 	return firstSet;
 }
-<<<<<<< Updated upstream
-int countNetminalAndNonterminal(string rule, regex x) {
-
-	sregex_iterator currentMatch(rule.begin(), rule.end(), x);
-	sregex_iterator lm;
-	string out = "";
-
-	int c = 0;
-	while (currentMatch != lm) {
-		smatch  match = *currentMatch;
-		++c;
-		currentMatch++;
-	}
-	return c;
-
-}
-=======
->>>>>>> Stashed changes
 set<string> getFirstSet(string NonTerminal) {
 	string currentRule;
 	set<string> firstSet;
@@ -94,7 +75,6 @@ set<string> getFirstSet(string NonTerminal) {
 		string anotherNonTerminal = productionsRules[j].substr(0, productionsRules[j].find('-') - 1);
 		if (NonTerminal == anotherNonTerminal) {
 			currentRule = productionsRules[j];
-			regex b("[A-Za-z]+");
 
 			//No repetition
 			if (firstTerminal(currentRule, productionsRules).find("$") != firstTerminal(currentRule, productionsRules).npos) {
@@ -169,4 +149,3 @@ int main()
 		}
 	}
 }
-
