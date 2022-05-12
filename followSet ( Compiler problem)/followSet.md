@@ -9,12 +9,12 @@ of tokens produced by FOLLOW can be used as synchronizing tokens.
 
 1. FOLLOW(S) = { $ } // where S is the starting Non-Terminal
 
-2. If A -> pBq is a production, where p, B and q are any grammar symbols,
+2. If A `->` pBq is a production, where p, B and q are any grammar symbols,
    then everything in FIRST(q) except Є is in FOLLOW(B).
 
-3. If A -> pB is a production, then everything in FOLLOW(A) is in FOLLOW(B).
+3. If A `->` pB is a production, then everything in FOLLOW(A) is in FOLLOW(B).
 
-4. If A -> pBq is a production and FIRST(q) contains Є,
+4. If A `->` pBq is a production and FIRST(q) contains Є,
    then FOLLOW(B) contains { FIRST(q) – Є } U FOLLOW(A)
 
 # Rules
@@ -27,8 +27,8 @@ Epsilon : $
 
 ### Example
 
-EXPR -> EXPRS + id  
-EXPR -> $  
-EXPRS -> id
+EXPR `->` EXPRS + id  
+EXPR `->` $  
+EXPRS `->` id
 
 **Note** : Between Terminal or Non-Terminal only 1 space and only one space between Non-Terminal and arrow `->`
