@@ -23,7 +23,7 @@ Non-Terminal : each letter in it must be upper case.
 
 Terminal : each letter in it must be upper case.
 
-Epsilon : $
+Epsilon : $   
 -| : end of file 
 
 ### Example
