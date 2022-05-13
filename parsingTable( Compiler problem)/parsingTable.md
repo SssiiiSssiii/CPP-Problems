@@ -1,21 +1,25 @@
 # Used in ?
 
-The construction of both top-down and bottom-up parsers is aided by two
-functions, FIRST and FOLLOW, associated with a grammar G. During topdown parsing, FIRST and FOLLOW allow us to choose which production to
-apply, based on the next input symbol. During panic-mode error recovery, sets
-of tokens produced by FOLLOW can be used as synchronizing tokens.
+The construction of both top-down and bottom-up parsers.   
 
 # Algorithm
 
-1. FOLLOW(S) = { $ } // where S is the starting Non-Terminal
+Step 1:  First check for left recursion in the grammar, if there is left recursion in the grammar remove that and go to step 2.   
 
-2. If A `->` pBq is a production, where p, B and q are any grammar symbols,
-   then everything in FIRST(q) except Є is in FOLLOW(B).
+Step 2: Calculate First() and Follow() for all non-terminals.    
 
-3. If A `->` pB is a production, then everything in FOLLOW(A) is in FOLLOW(B).
+First() : If there is a variable, and from that variable, if we try to drive all the strings then the beginning Terminal Symbol is called the First.    
+Follow() : What is the Terminal Symbol which follows a variable in the process of derivation.    
 
-4. If A `->` pBq is a production and FIRST(q) contains Є,
-   then FOLLOW(B) contains { FIRST(q) – Є } U FOLLOW(A)
+Step 3: For each production A –> α. (A tends to alpha)
+
+Find First(α) and for each terminal in First(α), make entry A –> α in the table.    
+If First(α) contains ε (epsilon) as terminal than, find the Follow(A) and for each terminal in Follow(A), make entry A –> α in the table.    
+If the First(α) contains ε and Follow(A) contains $ as terminal, then make entry A –> α in the table for the $.    
+
+To construct the parsing table, we have two functions:     
+ 
+In the table, rows will contain the Non-Terminals and the column will contain the Terminal Symbols. All the Null Productions of the Grammars will go under the Follow elements and the remaining productions will lie under the elements of the First set.     
 
 # Rules
 
