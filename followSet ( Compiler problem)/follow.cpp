@@ -136,56 +136,59 @@ set<string> getFirstSet(string NonTerminal) {
 	return firstSet;
 
 }
-set<string> getFollowSet(string NonTerminal , string Rules []) {
+set<string> getFollowSet(string NonTerminal, string Rules[]) {
 	string currentRule;
 	set<string> followSet;
 
 	for (int i = 0; i < theNubmerOfRules; i++) {
-		if ( Rules[i].find( NonTerminal ) != Rules[i].npos ) {
+		if (Rules[i].find(NonTerminal) != Rules[i].npos) {
 			currentRule = Rules[i];
 
-			if (  Rules[0].substr(0, Rules[i].find('-') - 1)  == NonTerminal )
-					followSet.insert("$");
+			if (Rules[0].substr(0, Rules[i].find('-') - 1) == NonTerminal)
+				followSet.insert("-|");
 
 			for (int j = currentRule.find('>') + 2; j < currentRule.size(); j++) {
 				string str = getString(currentRule, j);
 				j += str.size();
 
-				//cout << j << " " << str <<  endl;
-				if ( str == NonTerminal ) {
+				if (str == NonTerminal) {
 					j++;
 
-					if ( str.back() == currentRule.back() ) {
+					if (str.back() == currentRule.back()) {
 						string t;
-					    for ( int v = currentRule.size()-1; !isspace(currentRule[v]); v-- ){
+						for (int v = currentRule.size() - 1; !isspace(currentRule[v]); v--) {
 							t += currentRule[v];
 						}
-						if ( t == NonTerminal && t != Rules[i].substr(0, Rules[i].find('-') - 1) ) {
-			            set<string> save = solveInfiniteR(NonTerminal , Rules[i].substr(0, Rules[i].find('-') - 1));
-						followSet.insert(save.begin(), save.end());
+						if (t == NonTerminal && t != Rules[i].substr(0, Rules[i].find('-') - 1)) {
+							set<string> save = solveInfiniteRecursion(NonTerminal, Rules[i].substr(0, Rules[i].find('-') - 1));
+							followSet.insert(save.begin(), save.end());
 						}
 					}
 					else if (isupper(currentRule[j])) {
-		
-						 if (getNonTerminal(currentRule, j) != NonTerminal) {
-							 set<string> save = getFirstSet(getNonTerminal(currentRule, j));
-							 if (save.count("$") != 0) {
-								 save.erase("$");
-								 set<string> save2 = getFollowSet(getNonTerminal(currentRule, j),Rules);
-								 save.insert(save2.begin(), save2.end());
-							 }
-							 followSet.insert(save.begin(), save.end());
-							 j += getNonTerminal(currentRule, j).size() + 1;
-						 }
-						 else
-							 --j;
+
+						if (getNonTerminal(currentRule, j) != NonTerminal) {
+							set<string> save = getFirstSet(getNonTerminal(currentRule, j));
+							if (save.count("$") != 0) {
+								save.erase("$");
+								set<string> save2 = getFollowSet(getNonTerminal(currentRule, j), Rules);
+								save.insert(save2.begin(), save2.end());
+							}
+							followSet.insert(save.begin(), save.end());
+							j += getNonTerminal(currentRule, j).size() + 1;
+						}
+						else {
+							set<string> save = getFirstSet(getNonTerminal(currentRule, j));
+							save.erase("$");
+							followSet.insert(save.begin(), save.end());
+							--j;
+						}
 
 					}
-					else if ( !isupper(currentRule[j])) {
+					else if (!isupper(currentRule[j])) {
 						followSet.insert(getTerminal(currentRule, j));
-						j += getTerminal(currentRule, j).size()+1;
+						j += getTerminal(currentRule, j).size() + 1;
 					}
-					
+
 
 				}
 
