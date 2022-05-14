@@ -142,7 +142,7 @@ int main()
 		visited.insert(nonTerminal);
 		set<string> firstSet;
 
-		//o know if the rule has been visited or no
+		//to know if the rule has been visited or no
 		if (visited.count(nonTerminal) == 1) {
 			firstSet = getFirstSet(nonTerminal);
 			cout << "  first set(" << nonTerminal << ") = ";

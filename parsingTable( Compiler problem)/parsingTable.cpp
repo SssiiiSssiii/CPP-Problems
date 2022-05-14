@@ -9,19 +9,13 @@
 #include <vector>
 using namespace std;
 
-int theNubmerOfRules;
-string productionsRules[1000];
-set<string> solveInfiniteRecursion(string NonT1, string NonT2);
-int getIndex(string mat[][100], string element, int noT, int noNT) {
-	for (int i = 0; i < noNT; i++) {
-		for (int j = 0; j < noT; j++) {
-			if (mat[i][j] == element)
-				return j;
-		}
-	}
-	return -1;
-}
+int numberOfRules;
+string productionsRules[100];
 
+// solve this problem A -> T and T -> A
+set<string> solveInfiniteRecursion(string NonT1, string NonT2);
+
+//get any string
 string getString(string currentRule, int stratFrom) {
 	string terminal;
 	for (int i = stratFrom; i < currentRule.size(); i++)
@@ -32,104 +26,105 @@ string getString(string currentRule, int stratFrom) {
 	}
 	return terminal;
 }
-//FirstFunction
+
+//Get Terminal
 string getTerminal(string currentRule, int stratFrom) {
 	string terminal;
-	for (int i = stratFrom; i < currentRule.size(); i++)
-	{
-		if (isupper(currentRule[i])) {
-			cout << "PLEASE FOLLOW THER RULeES.\n"; exit(0);
+	for (int letter = stratFrom; letter < currentRule.size(); letter++) {
+		if (isupper(currentRule[letter])) {
+			cout << "PLEASE FOLLOW THER RULES.\n"; exit(0);
 		}
-		if (isspace(currentRule[i]))
+		if (isspace(currentRule[letter]))//store letters till see a space.
 			break;
-		terminal += currentRule[i];
+		terminal += currentRule[letter];
 	}
 	return terminal;
 }
+
+//Get NonTerminal
 string getNonTerminal(string currentRule, int stratFrom) {
 	string nonTerminal;
-	for (int i = stratFrom; i < currentRule.size(); i++)
-	{
-		if (islower(currentRule[i])) {
+	for (int letter = stratFrom; letter < currentRule.size(); letter++) {
+		if (islower(currentRule[letter])) {
 			cout << "PLEASE FOLLOW THE RULES.\n"; exit(0);
 		}
-		if (isspace(currentRule[i]))
+		if (isspace(currentRule[letter]))//store letters till see a space.
 			break;
-		nonTerminal += currentRule[i];
+		nonTerminal += currentRule[letter];
 	}
 	return nonTerminal;
 }
+
+//Get First Terminal
 set<string> firstTerminal(string currentRule, string productionsRules[]) {
-	set<string> firstSet;
-	char TerminalOrNonTerminal = currentRule[currentRule.find('>') + 2];
-	int  IndexOfTerminalOrNonTerminal = currentRule.find('>') + 2;
+	set<string> firstSet;//using set to avoid repetition.
+	int indexOfTheFirstLetterAfterArrow = currentRule.find('>') + 2;
+	char TerminalOrNonTerminal = currentRule[indexOfTheFirstLetterAfterArrow];//get first char after arrow and then check if is it Terminal or not.
 
-	if (!isupper(TerminalOrNonTerminal)) {
-		//to guarantee epsilon in the correct pos.
-		if (currentRule.back() != '$' && TerminalOrNonTerminal == '$') {
-			cout << "YOU CAN'T PUT $ HERE"; exit(0);
-		}
-
-		firstSet.insert(getTerminal(currentRule, IndexOfTerminalOrNonTerminal));
+	if (!isupper(TerminalOrNonTerminal)) { //that's mean is a Terminal
+		firstSet.insert(getTerminal(currentRule, indexOfTheFirstLetterAfterArrow));//get the wohle string and store it.
 		return firstSet;
 	}
 	else {
-		string nonTerminal = getNonTerminal(currentRule, IndexOfTerminalOrNonTerminal);
-
-		for (int rule = 0; rule < theNubmerOfRules; rule++) {
-			string anotherNonTerminal = productionsRules[rule].substr(0, productionsRules[rule].find('-') - 1);
+		string nonTerminal = getNonTerminal(currentRule, indexOfTheFirstLetterAfterArrow);
+		//get the firstSet of the NonTerminal at all Rules.
+		for (int rule = 0; rule < numberOfRules; rule++) {
+			int indexOfTheLetterPreviousDash = productionsRules[rule].find('-') - 1;// GOAL -> B *****  index Of 'L'
+			string anotherNonTerminal = productionsRules[rule].substr(0, indexOfTheLetterPreviousDash);//get the whole string **** "GOAL"
 
 			if (nonTerminal == anotherNonTerminal) {
 				currentRule = productionsRules[rule];
-				set<string>save = firstTerminal(currentRule, productionsRules);
+				set<string> save = firstTerminal(currentRule, productionsRules);//get the new FirstSet and store it in the previous FirstSet
 				firstSet.insert(save.begin(), save.end());
 			}
 		}
-
 		return firstSet;
 	}
 	return firstSet;
 }
+
+//Get the First Set
 set<string> getFirstSet(string NonTerminal) {
 	string currentRule;
 	set<string> firstSet;
 	bool hasEpsilon = true;
-	for (int j = 0; j < theNubmerOfRules; j++) {
-		string anotherNonTerminal = productionsRules[j].substr(0, productionsRules[j].find('-') - 1);
-		if (NonTerminal == anotherNonTerminal) {
-			currentRule = productionsRules[j];
+	for (int rule = 0; rule < numberOfRules; rule++) {
+		int indexOfTheLetterPreviousDash = productionsRules[rule].find('-') - 1;// GOAL -> B *****  index Of 'L'.
+		string anotherNonTerminal = productionsRules[rule].substr(0, indexOfTheLetterPreviousDash);
+
+		if (NonTerminal == anotherNonTerminal) { // match the first NonTerminal at each rule.
+			currentRule = productionsRules[rule];
 
 			//No repetition
-			if (firstTerminal(currentRule, productionsRules).count("$") == 1) {
-				char TerminalOrNonTerminal = currentRule[currentRule.find('>') + 2];
-				int  IndexOfTerminalOrNonTerminal = currentRule.find('>') + 2;
-				for (int i = IndexOfTerminalOrNonTerminal; i < currentRule.size(); i++) {
+			if (firstTerminal(currentRule, productionsRules).count("$")) {
+				int indexOfTheFirstLetterAfterArrow = currentRule.find('>') + 2;
+				char TerminalOrNonTerminal = currentRule[indexOfTheFirstLetterAfterArrow];
+
+				for (int letter = indexOfTheFirstLetterAfterArrow; letter < currentRule.size(); letter++) {
 					if (!isspace(TerminalOrNonTerminal)) {
 						if (!isupper(TerminalOrNonTerminal)) {
-							if (firstSet.count(getTerminal(currentRule, i)) == 0)
-								firstSet.insert(getTerminal(currentRule, i));
+
+							firstSet.insert(getTerminal(currentRule, letter));
 							hasEpsilon = false;
-							i += getTerminal(currentRule, i).size();
-							TerminalOrNonTerminal = currentRule[i];
 							break;
 						}
 						else {
+
 							//to save from override
-							set<string> save = getFirstSet(getNonTerminal(currentRule, i));
+							set<string> save = getFirstSet(getNonTerminal(currentRule, letter));
 							firstSet.insert(save.begin(), save.end());
-							if (firstSet.count("$") != 0)
+
+							if (firstSet.count("$"))
 								firstSet.erase("$");
 							else {
-
 								hasEpsilon = false;
 								break;
 							}
-							i += getNonTerminal(currentRule, i).size();
-							if (i < currentRule.size())
-								TerminalOrNonTerminal = currentRule[i + 1];
+							letter += getNonTerminal(currentRule, letter).size();
+							if (letter < currentRule.size())
+								TerminalOrNonTerminal = currentRule[letter + 1];
 						}
 					}
-
 				}
 			}
 
@@ -146,59 +141,71 @@ set<string> getFirstSet(string NonTerminal) {
 		firstSet.insert("$");
 
 	return firstSet;
-
 }
+
+//Get the Followirst Set
 set<string> getFollowSet(string NonTerminal, string Rules[]) {
 	string currentRule;
 	set<string> followSet;
 
-	for (int i = 0; i < theNubmerOfRules; i++) {
-		if (Rules[i].find(NonTerminal) != Rules[i].npos) {
-			currentRule = Rules[i];
+	for (int rule = 0; rule < numberOfRules; rule++) {
+		if (Rules[rule].find(NonTerminal) != Rules[rule].npos) { //match the nonTerminal at each string in a each rule
+			currentRule = Rules[rule];
 
-			if (Rules[0].substr(0, Rules[i].find('-') - 1) == NonTerminal)
+			if (Rules[0].substr(0, Rules[rule].find('-') - 1) == NonTerminal)// for start symbol "adding of file" 
 				followSet.insert("-|");
 
-			for (int j = currentRule.find('>') + 2; j < currentRule.size(); j++) {
-				string str = getString(currentRule, j);
-				j += str.size();
+			int indexOfTheFirstLetterAfterArrow = currentRule.find('>') + 2;
+
+			for (int letter = indexOfTheFirstLetterAfterArrow; letter < currentRule.size(); letter++) {
+				string str = getString(currentRule, letter);
+				letter += str.size();
 
 				if (str == NonTerminal) {
-					j++;
 
-					if (str.back() == currentRule.back()) {
+					letter++;
+
+					//case1 : end of rule
+					if (str.back() == currentRule.back()) {// check if str "X" is in the end of rule ** A -> "X"
 						string t;
-						for (int v = currentRule.size() - 1; !isspace(currentRule[v]); v--) {
+						for (int v = currentRule.size() - 1; !isspace(currentRule[v]); v--)
 							t += currentRule[v];
-						}
-						if (t == NonTerminal && t != Rules[i].substr(0, Rules[i].find('-') - 1)) {
-							set<string> save = solveInfiniteRecursion(NonTerminal, Rules[i].substr(0, Rules[i].find('-') - 1));
+
+						reverse(t.begin(), t.end());
+
+						if (t == NonTerminal && t != Rules[rule].substr(0, Rules[rule].find('-') - 1)) {
+							set<string> save = solveInfiniteRecursion(NonTerminal, Rules[rule].substr(0, Rules[rule].find('-') - 1));  //get the new FollowSet and store it in the previous FollowFirst
 							followSet.insert(save.begin(), save.end());
 						}
 					}
-					else if (isupper(currentRule[j])) {
+					//case2 :   the follow string is NonTerminal
+					else if (isupper(currentRule[letter])) {
 
-						if (getNonTerminal(currentRule, j) != NonTerminal) {
-							set<string> save = getFirstSet(getNonTerminal(currentRule, j));
+						if (getNonTerminal(currentRule, letter) != NonTerminal) {
+							set<string> save = getFirstSet(getNonTerminal(currentRule, letter));
+
 							if (save.count("$") != 0) {
 								save.erase("$");
-								set<string> save2 = getFollowSet(getNonTerminal(currentRule, j), Rules);
+								set<string> save2 = getFollowSet(getNonTerminal(currentRule, letter), Rules); //get the new FollowSet and store it in the previous FollowFirst
 								save.insert(save2.begin(), save2.end());
 							}
+
 							followSet.insert(save.begin(), save.end());
-							j += getNonTerminal(currentRule, j).size() + 1;
+							letter += getNonTerminal(currentRule, letter).size() + 1;
 						}
 						else {
-							set<string> save = getFirstSet(getNonTerminal(currentRule, j));
+
+							set<string> save = getFirstSet(getNonTerminal(currentRule, letter)); //get the new FollowSet and store it in the previous FollowFirst
 							save.erase("$");
 							followSet.insert(save.begin(), save.end());
-							--j;
+							--letter;
 						}
 
 					}
-					else if (!isupper(currentRule[j])) {
-						followSet.insert(getTerminal(currentRule, j));
-						j += getTerminal(currentRule, j).size() + 1;
+					//case3 :   the follow string is Terminal
+					else if (!isupper(currentRule[letter])) {
+						followSet.insert(getTerminal(currentRule, letter));
+						letter += getTerminal(currentRule, letter).size() + 1;
 					}
 
 
@@ -209,24 +216,25 @@ set<string> getFollowSet(string NonTerminal, string Rules[]) {
 	}
 	return followSet;
 }
+
+// solve this problem A -> T and T -> A
 set<string> solveInfiniteRecursion(string NonT1, string NonT2) {
 
-	string tempProductionsRules[1000];
-	int n = 1000;
+	string tempProductionsRules[100];
 	int j = 0;
-	//cout << NonT1 << " " << NonT2 << endl;
-	for (int i = 0; i < theNubmerOfRules; i++) {
+
+	for (int rule = 0; rule < numberOfRules; rule++) {
 		string t;
 
 
-		for (int v = productionsRules[i].size() - 1; !isspace(productionsRules[i][v]); v--) {
-			t += productionsRules[i][v];
+		for (int v = productionsRules[rule].size() - 1; !isspace(productionsRules[rule][v]); v--) {
+			t += productionsRules[rule][v];
 		}
-		if (productionsRules[i].substr(0, productionsRules[i].find('-') - 1) == NonT1 && t == NonT2) {
+		if (productionsRules[rule].substr(0, productionsRules[rule].find('-') - 1) == NonT1 && t == NonT2) {
 			continue;
 		}
 		else {
-			tempProductionsRules[j] = productionsRules[i];
+			tempProductionsRules[j] = productionsRules[rule];
 			++j;
 		}
 
@@ -234,13 +242,16 @@ set<string> solveInfiniteRecursion(string NonT1, string NonT2) {
 	return getFollowSet(NonT2, tempProductionsRules);
 
 }
+
+
+//get the Rule ( which can obtain a specific  terminal)
 string getRule(string nonT, string T) {
 
 	string rule;
 	string t;
 	bool isExist = false;
 
-	for (int i = 0; i < theNubmerOfRules; i++) {
+	for (int i = 0; i < numberOfRules; i++) {
 		for (int j = productionsRules[i].find('>') + 2; j < productionsRules[i].size(); j++) {
 			if (productionsRules[i].substr(0, productionsRules[i].find('-') - 1) == nonT) {
 
@@ -250,13 +261,13 @@ string getRule(string nonT, string T) {
 				if (t == T)
 					return productionsRules[i];
 				else
-					t = "";
+					break;
 			}
 		}
 
 	}
 
-	for (int i = 0; i < theNubmerOfRules; i++) {
+	for (int i = 0; i < numberOfRules; i++) {
 		if (productionsRules[i].substr(0, productionsRules[i].find('-') - 1) == nonT) {
 			if (isupper(productionsRules[i][productionsRules[i].find('>') + 2])) {
 				if (getFirstSet(getNonTerminal(productionsRules[i], productionsRules[i].find('>') + 2)).count(T) == 1)
@@ -274,18 +285,20 @@ string getRule(string nonT, string T) {
 }
 int main()
 {
-	cin >> theNubmerOfRules;
+	cin >> numberOfRules;
 	cin.ignore();
 
 	//get productions rules
-	for (int i = 0; i < theNubmerOfRules; i++)
+	for (int i = 0; i < numberOfRules; i++)
 		getline(cin, productionsRules[i]);
 
 	set<string> terminals;
 	set<string> nonTerminals;
 
+	///////construct Parsing Table
+
 	//get all terminals & nonTerminals
-	for (size_t i = 0; i < theNubmerOfRules; i++) {
+	for (size_t i = 0; i < numberOfRules; i++) {
 		for (int j = 0; j < productionsRules[i].size(); j++) {
 			if (!isupper(productionsRules[i][j]) && productionsRules[i][j] != '-' && productionsRules[i][j] != '>' && !isspace(productionsRules[i][j]) && productionsRules[i][j] != '$') {
 				terminals.insert(getTerminal(productionsRules[i], j));
@@ -299,22 +312,23 @@ int main()
 		}
 	}
 
+	//end of file.
 	terminals.insert("-|");
 
-	const int numberOfTerminals = terminals.size();
-	const int numberOfNonTerminals = nonTerminals.size();
+	int numberOfTerminals = terminals.size();
+	int numberOfNonTerminals = nonTerminals.size();
 
-
-	//construct the parsing table
 
 	string parsingTable[100][100] = { " " };
 	auto it = terminals.begin();
+
 	for (size_t i = 1; i < numberOfTerminals + 1; i++) {
 		parsingTable[0][i] = *it;
 		++it;
 	}
 
 	it = nonTerminals.begin();
+
 	for (size_t i = 1; i < numberOfNonTerminals + 1; i++) {
 		parsingTable[i][0] = *it;
 		++it;
@@ -322,6 +336,8 @@ int main()
 
 
 	cout << '\n' << "Predict   Expression\n";
+
+	//display parsing table
 	for (size_t i = 1; i < numberOfNonTerminals + 1; i++) {
 		for (size_t j = 1; j < numberOfTerminals + 1; j++) {
 			if (getFirstSet(parsingTable[i][0]).count(parsingTable[0][j]) == 1) {
@@ -333,7 +349,6 @@ int main()
 			set<string> fSet = getFollowSet(parsingTable[i][0], productionsRules);
 
 			for (auto it : fSet) {
-				int indexOfFollowElement = getIndex(parsingTable, it, numberOfTerminals, numberOfNonTerminals);
 				cout << it << "         from " << getRule(parsingTable[i][0], "$") << '\n';
 			}
 		}
