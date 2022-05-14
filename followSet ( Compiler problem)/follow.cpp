@@ -9,7 +9,7 @@
 using namespace std;
 
 int theNubmerOfRules;
-string productionsRules[1000];
+string productionsRules[100];
 set<string> solveInfiniteR(string NonT1, string NonT2);
 string getString(string currentRule, int stratFrom) {
 	string terminal;
