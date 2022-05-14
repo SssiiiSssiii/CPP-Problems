@@ -59,8 +59,8 @@ string getNonTerminal(string currentRule, int stratFrom) {
 	}
 	return nonTerminal;
 }
-string firstTerminal(string currentRule, string productionsRules[]) {
-	string firstSet = "";
+set<string> firstTerminal(string currentRule, string productionsRules[]) {
+	set<string> firstSet;
 	char TerminalOrNonTerminal = currentRule[currentRule.find('>') + 2];
 	int  IndexOfTerminalOrNonTerminal = currentRule.find('>') + 2;
 
@@ -70,7 +70,7 @@ string firstTerminal(string currentRule, string productionsRules[]) {
 			cout << "YOU CAN'T PUT $ HERE"; exit(0);
 		}
 
-		firstSet = getTerminal(currentRule, IndexOfTerminalOrNonTerminal);
+		firstSet.insert(getTerminal(currentRule, IndexOfTerminalOrNonTerminal));
 		return firstSet;
 	}
 	else {
@@ -81,7 +81,8 @@ string firstTerminal(string currentRule, string productionsRules[]) {
 
 			if (nonTerminal == anotherNonTerminal) {
 				currentRule = productionsRules[rule];
-				firstSet += firstTerminal(currentRule, productionsRules) + " ";
+				set<string>save = firstTerminal(currentRule, productionsRules);
+				firstSet.insert(save.begin(), save.end());
 			}
 		}
 
@@ -92,7 +93,6 @@ string firstTerminal(string currentRule, string productionsRules[]) {
 set<string> getFirstSet(string NonTerminal) {
 	string currentRule;
 	set<string> firstSet;
-
 	bool hasEpsilon = true;
 	for (int j = 0; j < theNubmerOfRules; j++) {
 		string anotherNonTerminal = productionsRules[j].substr(0, productionsRules[j].find('-') - 1);
@@ -100,7 +100,7 @@ set<string> getFirstSet(string NonTerminal) {
 			currentRule = productionsRules[j];
 
 			//No repetition
-			if (firstTerminal(currentRule, productionsRules).find("$") != firstTerminal(currentRule, productionsRules).npos) {
+			if (firstTerminal(currentRule, productionsRules).count("$") == 1) {
 				char TerminalOrNonTerminal = currentRule[currentRule.find('>') + 2];
 				int  IndexOfTerminalOrNonTerminal = currentRule.find('>') + 2;
 				for (int i = IndexOfTerminalOrNonTerminal; i < currentRule.size(); i++) {
@@ -135,7 +135,8 @@ set<string> getFirstSet(string NonTerminal) {
 
 			else {
 				hasEpsilon = false;
-				firstSet.insert(firstTerminal(currentRule, productionsRules));
+				set<string>save = firstTerminal(currentRule, productionsRules);
+				firstSet.insert(save.begin(), save.end());
 			}
 
 		}
@@ -241,21 +242,33 @@ string getRule(string nonT, string T) {
 
 	for (int i = 0; i < theNubmerOfRules; i++) {
 		for (int j = productionsRules[i].find('>') + 2; j < productionsRules[i].size(); j++) {
-			t = getString(productionsRules[i], j);
-			j += t.size();
+			if (productionsRules[i].substr(0, productionsRules[i].find('-') - 1) == nonT) {
 
-			if (t == T) {
-				isExist = true;
-				break;
+				t = getString(productionsRules[i], j);
+				j += t.size();
+
+				if (t == T)
+					return productionsRules[i];
+				else
+					t = "";
 			}
-			else
-				t = "";
 		}
-		if (productionsRules[i].substr(0, productionsRules[i].find('-') - 1) == nonT && isExist)
-			return productionsRules[i];
 
 	}
 
+	for (int i = 0; i < theNubmerOfRules; i++) {
+		if (productionsRules[i].substr(0, productionsRules[i].find('-') - 1) == nonT) {
+			if (isupper(productionsRules[i][productionsRules[i].find('>') + 2])) {
+				if (getFirstSet(getNonTerminal(productionsRules[i], productionsRules[i].find('>') + 2)).count(T) == 1)
+					return productionsRules[i];
+				else if (getFirstSet(getNonTerminal(productionsRules[i], productionsRules[i].find('>') + 2)).count("$") == 1) {
+					if (getFollowSet(getNonTerminal(productionsRules[i], productionsRules[i].find('>') + 2), productionsRules).count(T) == 1)
+						return productionsRules[i];
+				}
+			}
+
+		}
+	}
 	return "- 1";
 
 }
@@ -307,47 +320,27 @@ int main()
 		++it;
 	}
 
+
+	cout << '\n' << "Predict   Expression\n";
 	for (size_t i = 1; i < numberOfNonTerminals + 1; i++) {
 		for (size_t j = 1; j < numberOfTerminals + 1; j++) {
 			if (getFirstSet(parsingTable[i][0]).count(parsingTable[0][j]) == 1) {
-				parsingTable[i][j] = getRule(parsingTable[i][0], parsingTable[0][j]);
+				cout << parsingTable[0][j] << "         from " << getRule(parsingTable[i][0], parsingTable[0][j]) << "\n";
 			}
 
-			if (getFirstSet(parsingTable[i][0]).count("$") == 1) {
-				set<string> fSet = getFollowSet(parsingTable[i][0], productionsRules);
+		}
+		if (getFirstSet(parsingTable[i][0]).count("$") == 1) {
+			set<string> fSet = getFollowSet(parsingTable[i][0], productionsRules);
 
-				for (auto it : fSet) {
-					int indexOfFollowElement = getIndex(parsingTable, it, numberOfTerminals, numberOfNonTerminals);
-					parsingTable[i][indexOfFollowElement] = getRule(parsingTable[i][0], "$");
-				}
+			for (auto it : fSet) {
+				int indexOfFollowElement = getIndex(parsingTable, it, numberOfTerminals, numberOfNonTerminals);
+				cout << it << "         from " << getRule(parsingTable[i][0], "$") << '\n';
 			}
 		}
-		cout << endl;
 	}
-
-
-	for (size_t i = 0; i < numberOfNonTerminals + 1; i++) {
-		for (size_t j = 0; j < numberOfTerminals + 1; j++) {
-			cout << parsingTable[i][j] << " ";
-		}
-		cout << endl;
-	}
-
-	//multiset<string>visited;
-	//for (int rule = 0; rule < theNubmerOfRules; rule++) {
-	//	string currentRule = productionsRules[rule];
-	//	string nonTerminal = getNonTerminal(currentRule, 0);
-	//	visited.insert(nonTerminal);
-
-	//	set<string> followSet;
-
-	//	////to know if the rule has been visited or not//	if (visited.count(nonTerminal) == 1) {
-	//		followSet = getFollowSet(nonTerminal, productionsRules);
-
-	//		cout << "  follow set(" << nonTerminal << ") = ";
-	//		for (auto it : followSet)
-	//			cout << it << " ";
-	//		cout << endl;
-	//	}
-	//}
 }
+
+
+
+
+
