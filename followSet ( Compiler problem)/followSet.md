@@ -21,10 +21,10 @@ of tokens produced by FOLLOW can be used as synchronizing tokens.
 
 Non-Terminal : each letter in it must be upper case.
 
-Terminal : each letter in it must be upper case.
+Terminal : each letter in it must be lower case.
 
-Epsilon : $   
--| : end of file 
+Epsilon : $  
+-| : end of file
 
 ### Example
 
@@ -32,4 +32,4 @@ EXPR `->` EXPRS + id
 EXPR `->` $  
 EXPRS `->` id
 
-**Note** : Between Terminal or Non-Terminal only 1 space and only one space between Non-Terminal and arrow `->`
+**Note** : Between Terminal or Non-Terminal only 1 space and only one space between Non-Terminal and arrow `->`, be careful with spacing.
