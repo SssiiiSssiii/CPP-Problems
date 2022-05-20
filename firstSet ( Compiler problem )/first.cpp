@@ -20,7 +20,7 @@ string getString(string currentRule, int startFrom) {
 	return str;
 }
 
-//Get getFirstTerminal
+//Get FirstTerminal
 set<string> getFirstTerminal(string currentRule, string productionsRules[]) {
 
 	set<string>firstSet;
@@ -51,7 +51,7 @@ set<string> getFirstTerminal(string currentRule, string productionsRules[]) {
 }
 
 
-//Get getFirstSet
+//Get FirstSet
 set<string> getFirstSet(string nonTerminal) {
 	string currentRule;
 	set<string> firstSet;
@@ -129,7 +129,7 @@ int main() {
 		visited.insert(nonTerminal);
 
 		//to know if the rule has been visited or not
-		if (visited.count(nonTerminal)) {
+		if (visited.count(nonTerminal) == 1) {
 
 			firstSet = getFirstSet(nonTerminal);
 			cout << "  first set(" << nonTerminal << ") = ";
