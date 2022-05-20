@@ -3,119 +3,103 @@
 #include <iostream>
 #include <cctype>
 #include <string>
-#include <cstring>
-#include <algorithm>
 #include <set>
 using namespace std;
 
-string productionsRules[1000];
-int nubmerOfRules;
+string productionsRules[100];
+int numberOfRules;
 
-//Get Terminal
-string getTerminal(string currentRule, int stratFrom) {
-	string terminal;
-	for (int letter = stratFrom; letter < currentRule.size(); letter++) {
-		if (isupper(currentRule[letter])) {
-			cout << "PLEASE FOLLOW THER RULES.\n"; exit(0);
-		}
+//Get string
+string getString(string currentRule, int startFrom) {
+	string str;
+	for (int letter = startFrom; letter < currentRule.size(); letter++) {
 		if (isspace(currentRule[letter]))//store letters till see a space.
 			break;
-		terminal += currentRule[letter];
+		str += currentRule[letter];
 	}
-	return terminal;
+	return str;
 }
 
-//Get NonTerminal
-string getNonTerminal(string currentRule, int stratFrom) {
-	string nonTerminal;
-	for (int letter = stratFrom; letter < currentRule.size(); letter++) {
-		if (islower(currentRule[letter])) {
-			cout << "PLEASE FOLLOW THE RULES.\n"; exit(0);
-		}
-		if (isspace(currentRule[letter]))//store letters till see a space.
-			break;
-		nonTerminal += currentRule[letter];
-	}
-	return nonTerminal;
-}
+//Get getFirstTerminal
+set<string> getFirstTerminal(string currentRule, string productionsRules[]) {
 
-//Get First Terminal
-set<string> firstTerminal(string currentRule, string productionsRules[]) {
-	set<string> firstSet;//using set to avoid repetition.
+	set<string>firstSet;
 	int indexOfTheFirstLetterAfterArrow = currentRule.find('>') + 2;
-	char TerminalOrNonTerminal = currentRule[indexOfTheFirstLetterAfterArrow];//get first char after arrow and then check if is it Terminal or not.
+	char letter = currentRule[indexOfTheFirstLetterAfterArrow];
 
-	if (!isupper(TerminalOrNonTerminal)) { //that's mean is a Terminal
-		firstSet.insert(getTerminal(currentRule, indexOfTheFirstLetterAfterArrow));//get the wohle string and store it.
+	if (!isupper(letter)) {
+
+		firstSet.insert(getString(currentRule, indexOfTheFirstLetterAfterArrow));
 		return firstSet;
 	}
 	else {
-		string nonTerminal = getNonTerminal(currentRule, indexOfTheFirstLetterAfterArrow);
-		//get the firstSet of the NonTerminal at all Rules.
-		for (int rule = 0; rule < nubmerOfRules; rule++) {
-			int indexOfTheLetterPreviousDash = productionsRules[rule].find('-') - 1;// GOAL -> B *****  index Of 'L'
-			string anotherNonTerminal = productionsRules[rule].substr(0, indexOfTheLetterPreviousDash);//get the whole string **** "GOAL"
+		string nonTerminal = getString(currentRule, indexOfTheFirstLetterAfterArrow);
 
-			if (nonTerminal == anotherNonTerminal) {
+		for (int rule = 0; rule < numberOfRules; rule++) {
+
+			int indexOfTheLetterPerviousDash = productionsRules[rule].find("-") - 1;// GOAL -> B *****  index Of 'L'.
+			string nonTerminal2 = productionsRules[rule].substr(0, indexOfTheLetterPerviousDash);
+
+			if (nonTerminal2 == nonTerminal) {
 				currentRule = productionsRules[rule];
-				set<string> save = firstTerminal(currentRule, productionsRules);//get the new FirstSet and store it in the previous FirstSet
+				set<string> save = getFirstTerminal(currentRule, productionsRules);
 				firstSet.insert(save.begin(), save.end());
 			}
 		}
 		return firstSet;
 	}
-	return firstSet;
 }
 
-//Get the First Set
-set<string> getFirstSet(string NonTerminal) {
+
+//Get getFirstSet
+set<string> getFirstSet(string nonTerminal) {
 	string currentRule;
 	set<string> firstSet;
 	bool hasEpsilon = true;
-	for (int rule = 0; rule < nubmerOfRules; rule++) {
-		int indexOfTheLetterPreviousDash = productionsRules[rule].find('-') - 1;// GOAL -> B *****  index Of 'L'.
-		string anotherNonTerminal = productionsRules[rule].substr(0, indexOfTheLetterPreviousDash);
 
-		if (NonTerminal == anotherNonTerminal) { // match the first NonTerminal at each rule.
+	for (int rule = 0; rule < numberOfRules; rule++) {
+
+		int indexOfTheLetterPerviousDash = productionsRules[rule].find("-") - 1;
+		string nonTerminal2 = productionsRules[rule].substr(0, indexOfTheLetterPerviousDash);
+
+		if (nonTerminal == nonTerminal2) {
 			currentRule = productionsRules[rule];
 
-			//No repetition
-			if (firstTerminal(currentRule, productionsRules).count("$")) {
-				int indexOfTheFirstLetterAfterArrow = currentRule.find('>') + 2;
-				char TerminalOrNonTerminal = currentRule[indexOfTheFirstLetterAfterArrow];
+			if (getFirstTerminal(currentRule, productionsRules).count("$")) {
+				int indexOfTheFirstLetterAfterArrow = currentRule.find(">") + 2;
+				char letter = currentRule[indexOfTheFirstLetterAfterArrow];
 
-				for (int letter = indexOfTheFirstLetterAfterArrow; letter < currentRule.size(); letter++) {
-					if (!isspace(TerminalOrNonTerminal)) {
-						if (!isupper(TerminalOrNonTerminal)) {
+				for (int i = indexOfTheFirstLetterAfterArrow; i < currentRule.size(); i++) {
 
-							firstSet.insert(getTerminal(currentRule, letter));
+					letter = currentRule[i];
+
+					if (!isupper(letter)) {
+						firstSet.insert(getString(currentRule, i));
+						hasEpsilon = false;
+						break;
+					}
+					else {
+						set<string> save = getFirstSet(getString(currentRule, i));
+						cout << letter << endl;
+						firstSet.insert(save.begin(), save.end());
+
+						if (firstSet.count("$"))
+							firstSet.erase("$");
+						else {
 							hasEpsilon = false;
 							break;
 						}
-						else {
 
-							//to save from override
-							set<string> save = getFirstSet(getNonTerminal(currentRule, letter));
-							firstSet.insert(save.begin(), save.end());
+						i += getString(currentRule, i).size();
 
-							if (firstSet.count("$"))
-								firstSet.erase("$");
-							else {
-								hasEpsilon = false;
-								break;
-							}
-							letter += getNonTerminal(currentRule, letter).size();
-							if (letter < currentRule.size())
-								TerminalOrNonTerminal = currentRule[letter + 1];
-						}
 					}
 				}
-			}
 
+			}
 			else {
-				hasEpsilon = false;
-				set<string> save = firstTerminal(currentRule, productionsRules);
+				set<string> save = getFirstTerminal(currentRule, productionsRules);
 				firstSet.insert(save.begin(), save.end());
+				hasEpsilon = false;
 			}
 
 		}
@@ -126,24 +110,27 @@ set<string> getFirstSet(string NonTerminal) {
 
 	return firstSet;
 }
-int main()
-{
-	cin >> nubmerOfRules;
+int main() {
+
+	cin >> numberOfRules;
 	cin.ignore();
 
-	//get productions rules
-	for (int i = 0; i < nubmerOfRules; i++)
+	for (int i = 0; i < numberOfRules; i++)
 		getline(cin, productionsRules[i]);
 
-	multiset<string>visited;
-	for (int rule = 0; rule < nubmerOfRules; rule++) {
+	set<string>visited;
+
+	for (int rule = 0; rule < numberOfRules; rule++) {
+
 		string currentRule = productionsRules[rule];
-		string nonTerminal = getNonTerminal(currentRule, 0);
-		visited.insert(nonTerminal);
+		string nonTerminal = getString(currentRule, 0);
 		set<string> firstSet;
 
-		//to know if the rule has been visited or no
-		if (visited.count(nonTerminal) == 1) {
+		visited.insert(nonTerminal);
+
+		//to know if the rule has been visited or not
+		if (visited.count(nonTerminal)) {
+
 			firstSet = getFirstSet(nonTerminal);
 			cout << "  first set(" << nonTerminal << ") = ";
 			for (auto it : firstSet)
@@ -151,4 +138,5 @@ int main()
 			cout << endl;
 		}
 	}
+
 }
