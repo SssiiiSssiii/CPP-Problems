@@ -80,7 +80,6 @@ set<string> getFirstSet(string nonTerminal) {
 					}
 					else {
 						set<string> save = getFirstSet(getString(currentRule, i));
-						cout << letter << endl;
 						firstSet.insert(save.begin(), save.end());
 
 						if (firstSet.count("$"))
