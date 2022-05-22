@@ -48,25 +48,7 @@ public:
 
 
 };
-class Category {
 
-public:
-    string getCategory(Characters ch) {
-
-        if (ch.getCh() != 'N') {
-            regex number("[0-9]+");
-            regex alphabet("[a-z]+");
-
-            if (regex_match(ch.getCh() + "", number))
-                return "number";
-            else if (regex_match(ch.getCh() + "", alphabet))
-                return "alphabet";
-        }
-        else
-            return  ch.getCh() + "";
-    }
-
-};
 class Transition {
 public:
 
@@ -90,13 +72,7 @@ public:
             }
         }
     }
-    void getTransitionTable() {
-        for (int i = 0; i < noOFStates; i++) {
-            for (int j = 0; j < chars.size(); j++)
-                cout << transitionTable[i][j].getState() << " ";
-            cout << endl;
-        }
-    }
+
 
 };
 
@@ -129,7 +105,6 @@ public:
 
     string getToken() {
         char ch;
-        Category category;
         string token;
         int indexOfCh;
 
