@@ -35,6 +35,9 @@ class Characters {
     char ch;
 
 public:
+    Characters() {
+        ch = 'N';
+    }
     void setCh(char c) {
         ch = c;
     }
@@ -43,52 +46,52 @@ public:
         return ch;
     }
 
+
 };
-//class Category {
-//  
-//public:
-//    string getCategory(Token token) {
-//
-//        if (token.getType() == "ND") {
-//            regex number("[0-9]+");
-//            regex alphabet("[a-z]+");
-//
-//            if (regex_match(token.getToken(), number))
-//                return "number";
-//            else if (regex_match(token.getToken(), alphabet))
-//                return "alphabet";
-//        }
-//        else
-//            return  token.getToken();
-//    }
-//};
+class Category {
+
+public:
+    string getCategory(Characters ch) {
+
+        if (ch.getCh() != 'N') {
+            regex number("[0-9]+");
+            regex alphabet("[a-z]+");
+
+            if (regex_match(ch.getCh() + "", number))
+                return "number";
+            else if (regex_match(ch.getCh() + "", alphabet))
+                return "alphabet";
+        }
+        else
+            return  ch.getCh() + "";
+    }
+
+};
 class Transition {
 public:
 
     State transitionTable[10][10];
-    vector<State> states;
+    int noOFStates;
     vector<Characters> chars;
 
     Transition() {}
 
-    Transition(vector<State> st, vector<Characters> chs) {
-        states = st;
+    Transition(int st, vector<Characters> chs) {
+        noOFStates = st;
         chars = chs;
     }
 
 
     void setTransitionTable() {
-        for (int i = 0; i < states.size(); i++) {
+        for (int i = 0; i < noOFStates; i++) {
             for (int j = 0; j < chars.size(); j++) {
                 transitionTable[i][j].setState();
                 transitionTable[i][j].setType();
-
-
             }
         }
     }
     void getTransitionTable() {
-        for (int i = 0; i < states.size(); i++) {
+        for (int i = 0; i < noOFStates; i++) {
             for (int j = 0; j < chars.size(); j++)
                 cout << transitionTable[i][j].getState() << " ";
             cout << endl;
@@ -97,9 +100,9 @@ public:
 
 };
 
-int getIndexOfState(vector<State> states, string state) {
-    for (size_t i = 0; i < states.size(); i++) {
-        if (state == states[i].getState())
+int getIndexOfState(State states[][10], int noOfSts, string state) {
+    for (size_t i = 0; i < noOfSts; i++) {
+        if (state == states[i][0].getState())
             return i;
     }
     return -1;
@@ -126,19 +129,17 @@ public:
 
     string getToken() {
         char ch;
-        //Category category;
+        Category category;
         string token;
         int indexOfCh;
 
 
-
-        for (int j = 0; j < transitionTable.states.size(); j++) {
+        for (int j = 0; j < transitionTable.noOFStates; j++) {
 
             if (!file.get(ch))
                 return "End";
 
             indexOfCh = getIndexOfCh(transitionTable.chars, ch);
-
             if (indexOfCh == -1)
                 return "Error";
 
@@ -149,14 +150,16 @@ public:
             else if (transitionTable.transitionTable[j][indexOfCh].getType() == "E")
                 return "Error";
             else {
-                j = getIndexOfState(transitionTable.states, transitionTable.transitionTable[j][indexOfCh].getState());
+                j = getIndexOfState(transitionTable.transitionTable, transitionTable.noOFStates, transitionTable.transitionTable[j][indexOfCh].getState());
                 j--;
+
                 if (!file.get(ch))
                     return "Error";
                 else
                     file.putback(ch);
             }
         }
+
 
         return "End";
     }
@@ -174,23 +177,19 @@ public:
 
 int main() {
 
-    Characters a, b;
-    a.setCh('a');
-    b.setCh('b');
-    vector<Characters> chs = { a,b };
+    Characters a, b, c, d;//G --> (1,1)
+    a.setCh('(');
+    b.setCh(')');
+    c.setCh(',');
+    d.setCh('1');
+    vector<Characters> chs = { a,b,c,d };
 
-    State q0, q1, F, E;
-    q0.setState();
-    q1.setState();
-    E.setState();
-    F.setState();
-    vector<State> states = { q0,q1,F,E };
-
-    Transition table(states, chs);
+    Transition table(6, chs);
     table.setTransitionTable();
 
 
-    Scanner sc("file.txt", table); sc.displayToken();
+    Scanner sc("file.txt", table);
+    sc.displayToken();
 
 }
 
