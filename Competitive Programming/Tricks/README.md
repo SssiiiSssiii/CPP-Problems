@@ -24,5 +24,14 @@ https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y
  int max = *max_element ( `arr` , `arr+n` )  , Where `arr` means the first element and `arr+n` the last element  
  https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/E  
  
+ ## Conditional Operator
+ if ( x == 5 )  
+      cout << "yes";  
+  else  
+      cout << "no"; 
+     
+  you can use &rarr; cout << ( x == 5 ) ? "yes" : "no";   
+ 
+ 
  
 
