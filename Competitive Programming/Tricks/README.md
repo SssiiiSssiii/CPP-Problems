@@ -21,7 +21,7 @@ F<sub>0</sub> = 0 , F<sub>1</sub> = 1  and F<sub>n</sub> = F<sub>n</sub> − 1 +
 https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y
 
 ## Max element in array
- int max = *max_element( `arr` , `arr+n` )  , Where `arr` means the first element and `arr+n` the last element  
+ int max = *max_element ( `arr` , `arr+n` )  , Where `arr` means the first element and `arr+n` the last element  
  https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/E  
  
  
