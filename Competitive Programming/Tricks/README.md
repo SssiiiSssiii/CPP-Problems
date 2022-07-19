@@ -9,3 +9,4 @@
  
  ## The sum of Numbers from `1` to `n`
  ( n * ( n + 1 ) ) / 2
+https://codeforces.com/group/MWSDmqGsZm/contest/219158/problem/G
