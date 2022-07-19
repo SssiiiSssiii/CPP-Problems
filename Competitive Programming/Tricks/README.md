@@ -6,3 +6,4 @@
 
 ## The Decimal representation for `n`  which consists only of `1's`
  ( 1 << `1's` ) -1 = pow (2 , `1's`)-1
+.
