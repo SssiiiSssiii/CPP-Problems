@@ -30,7 +30,7 @@ https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y
   else  
       cout << "no"; 
      
-  you can use &rarr; cout << ( x == 5 ) ? "yes" : "no";   
+  you can use &rarr; cout << ( x == 5 ) `?` "yes" : "no";   
  
  
  
