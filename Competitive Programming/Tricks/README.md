@@ -33,7 +33,7 @@ https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y
   you can use &rarr; cout << ( x == 5 ) `?` "yes" : "no";   
   
   ## Sum all values in array using built-in function 
-   int sum = accumulate (arr , arr+n, 0) 
+   int sum = accumulate (arr , arr+n, 0);
  
  
 
