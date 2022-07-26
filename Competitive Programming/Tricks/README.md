@@ -11,6 +11,8 @@
  ## The sum of Numbers from `1` to `n`
  ( n * ( n + 1 ) ) / 2  
  https://codeforces.com/group/MWSDmqGsZm/contest/219158/problem/G
+ 
+ https://codeforces.com/group/XGW5NIn8kq/contest/391344/problem/D
 
 ## GCD using built-in function
 __gcd ( `x` ,  `y` )   
@@ -31,7 +33,7 @@ https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y
   else  
       cout << "no"; 
  ```
-  you can use &rarr; cout << ( x == 5 ) `?` "yes" : "no";   
+  you can use &rarr; cout << ( x == 5  `?` "yes" `:` "no" );   
   
   ## Sum all values in array using built-in function
   ```c
