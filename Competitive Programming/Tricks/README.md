@@ -41,5 +41,7 @@ https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y
    ```
    https://cplusplus.com/reference/numeric/accumulate/
  
+ ## Sum of even numbers from 1 to n
+ ``n*(n+1)``
  
 
