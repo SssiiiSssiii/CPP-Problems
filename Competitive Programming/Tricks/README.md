@@ -18,9 +18,11 @@
 __gcd ( `x` ,  `y` )   
 https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/L
 
-## Fibonacci Number
+## Fibonacci Number in o(1)
 F<sub>0</sub> = 0 , F<sub>1</sub> = 1  and F<sub>n</sub> = F<sub>n</sub> − 1 + F<sub>n</sub> − 2   
-https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y
+https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/Y   
+more information   
+https://artofproblemsolving.com/wiki/index.php/Binet%27s_Formula
 
 ## Max element in array
  int max = *max_element ( `arr` , `arr+n` )  , Where `arr` means the first element and `arr+n` the last element  
