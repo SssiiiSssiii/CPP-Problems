@@ -1,4 +1,4 @@
-# shift cipher
+# Shift cipher
 ```c
 #include <bits/stdc++.h>
 using namespace std;
@@ -35,7 +35,7 @@ int main() {
  }
 ```
 
-# affine cipher
+# Affine cipher
 ```c
 #include <bits/stdc++.h>
 using namespace std;
@@ -73,7 +73,7 @@ int main() {
 }
 ```
 
-#Substitution 
+# Substitution 
 ```c
 #include <bits/stdc++.h>
 using namespace std;
@@ -110,7 +110,7 @@ int main() {
 }
 
 ```
-#Vigenere cipher
+# Vigenere cipher
 ```c
 #include <bits/stdc++.h>
 using namespace std;
@@ -147,7 +147,7 @@ int main() {
 }
 
 ```
-#Hill cipher
+# Hill cipher
 ```c
 #include <bits/stdc++.h>
 using namespace std;
@@ -194,7 +194,7 @@ int main() {
 
 ```
 
-#Permutation cipher
+# Permutation cipher
 ```c
 #include <bits/stdc++.h>
 using namespace std;
