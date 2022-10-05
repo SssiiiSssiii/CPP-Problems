@@ -3,6 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+//Shift cipher
 //Lowercase alphabets
 //Modulo 26
 
@@ -28,11 +29,13 @@ int main() {
     string cipherText = "hphtwwxppelextoytrse";
     int key = 11;
 
-    cout <<  "Encryption = " << encrypt (message , key) << endl;
-    cout <<  "Decryption = " << decrypt (cipherText , key) << endl ;
+    cout << encrypt (message , key) << endl;
+    cout << decrypt (cipherText , key) << endl ;
 
     return 0;
- }
+
+}
+
 ```
 
 # Affine cipher
@@ -40,8 +43,17 @@ int main() {
 #include <bits/stdc++.h>
 using namespace std;
 
+//Affine cipher
 //Lowercase alphabets
 //Modulo 26
+
+int getInverse (int key) {
+       for (int i = 0; i < 26; i++) {
+            if ( (key * i) % 26 == 1 )
+                return i;
+       }
+    return -1;
+}
 
 string encrypt (string message , int key1 , int key2) {
     string  cipherText;
@@ -66,11 +78,13 @@ int main() {
     string cipherText = "axg";
     int key1 = 7;
     int key2 = 3;
-    int inverseOfKey1 = 15;
+    int inverseOfKey1 = getInverse(key1);
 
-    cout << "Encryption = " << encrypt (message , key1 , key2) << endl;
-    cout << "Decryption = " << decrypt (cipherText , inverseOfKey1 , key2) << endl ;
+    cout << encrypt (message , key1 , key2) << endl;
+    cout << ( inverseOfKey1 != -1 ? decrypt (cipherText , inverseOfKey1 , key2) : "There is no inverse for key1") << endl ;
+
 }
+
 ```
 
 # Substitution cipher
@@ -78,6 +92,7 @@ int main() {
 #include <bits/stdc++.h>
 using namespace std;
 
+//Substitution  cipher
 //Lowercase alphabets
 //Modulo 26
 
@@ -104,8 +119,8 @@ int main() {
     string encryptionKey = "xnyahpogzqwbtsflrcvmuekjdi";
     string decryptionKey = "diryvohezxqptbgfjqnmuskaci";
 
-    cout << "Encryption = "  << encrypt (message , encryptionKey) << endl;
-    cout << "Decryption = "  << decrypt (cipherText , decryptionKey) << endl ;
+    cout << encrypt (message , encryptionKey) << endl;
+    cout << decrypt (cipherText , decryptionKey) << endl ;
 
 }
 
@@ -115,6 +130,7 @@ int main() {
 #include <bits/stdc++.h>
 using namespace std;
 
+//Vigenere  cipher
 //Lowercase alphabets
 //Modulo 26
 
@@ -146,15 +162,37 @@ int main() {
 
 }
 
+
 ```
 # Hill cipher
 ```c
 #include <bits/stdc++.h>
 using namespace std;
 
+//Hill  cipher
 //Lowercase alphabets
 //Modulo 26
 
+int getInverse (int key) {
+    for (int i = 0; i < 26; i++) {
+        if ( (key * i) % 26 == 1 )
+            return i;
+    }
+    return -1;
+}
+
+vector <vector<int>> getInverseMat (vector <vector <int> > key) {
+    vector <vector<int>> inverseKey(2);
+    int det = ((((key[0][0] * key[1][1]) - (key[0][1] * key[1][0])) % 26) + 26) % 26;
+    int inverseDet = getInverse(det);
+
+    inverseKey[0].push_back ((key[1][1]) * inverseDet);
+    inverseKey[0].push_back ((((key[0][1] * -1 % 26) + 26) * inverseDet) % 26);
+    inverseKey[1].push_back ((((key[1][0] * -1 % 26) + 26) * inverseDet) % 26);
+    inverseKey[1].push_back ((key[0][0]) * inverseDet);
+
+    return inverseKey;
+}
 
 string encrypt (string message, vector <vector <int> > key) {
     string  cipherText;
@@ -184,13 +222,14 @@ int main() {
 
     string message = "july";
     string cipherText = "delw";
-    vector <vector<int>> encryptionKey =  {{ 11 , 8 } , { 3 , 7 }};
-    vector <vector<int>> decryptionKey = {{ 7 , 18 },{ 23 , 11 }};
+    vector <vector<int>> encryptionKey =  {{ 11, 8 } , { 3, 7 }};
+    vector <vector<int>> decryptionKey = getInverseMat(encryptionKey);
 
-    cout << "Encryption = " << encrypt (message, encryptionKey) << endl;
-    cout << "Decryption = " << decrypt (cipherText, decryptionKey) << endl ;
+    cout << encrypt (message, encryptionKey) << endl;
+    cout << decrypt (cipherText, decryptionKey) << endl ;
 
 }
+
 
 ```
 
@@ -199,6 +238,7 @@ int main() {
 #include <bits/stdc++.h>
 using namespace std;
 
+//Permutation  cipher
 //Lowercase alphabets
 //Modulo 26
 
