@@ -1,4 +1,4 @@
-# Examples
+
 ![Alt text](/images/Q1.png)
 
 ```c
