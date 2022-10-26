@@ -1,5 +1,5 @@
 # Examples
-![image](Q1.png)
+![Alt text](/images/Q1.png)
 
 ```c
 #include <bits/stdc++.h>
@@ -33,7 +33,7 @@ int main() {
 
 }
 ```
-![image](Q2.png)
+![Alt text](/images/Q2.png)
 ```c
 #include <bits/stdc++.h>
 #include <pthread.h>
@@ -81,7 +81,7 @@ int main() {
 
 }
 ```
-![image](Q3.png)
+![Alt text](/images/Q3.png)
 
 ```c
 #include <bits/stdc++.h>
@@ -134,7 +134,7 @@ int main() {
 
 }
 ```
-![image](ass1.png)
+![Alt text](/images/ass1.png)
 ```c
 #include <bits/stdc++.h>
 #include <pthread.h>
