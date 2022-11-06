@@ -63,58 +63,30 @@ int main() {
 
 ```
 
-![Alt text](/images/Q3.png)
+![Alt text](/images/S3Q3.png)
 
 ```c
 #include <bits/stdc++.h>
-#include <pthread.h>
+#include <omp.h>
 using namespace std;
-
-int v1[16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
-int v2[16] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
-int v3[16] = {};
-pthread_mutex_t Lock;
-int result;
-
-void* routine(void *arg) {
-    int index = intptr_t(arg);
-    int sum = 0;
-
-    for (int i = 0; i < 4; i++) {
-        v3[index + i] = v1[index + i] * v2[index + i];
-        sum +=  v3[index + i];
-    }
-
-    pthread_mutex_lock(&Lock);
-    result += sum;
-    pthread_mutex_unlock(&Lock);
-}
 
 int main() {
 
-    pthread_t threads[4];
-    pthread_mutex_init(&Lock, NULL);
-    int index = 0;
+    int elements[100001];
+    for (int i = 1; i <= 10000; i++)
+        elements[i] = i;
 
-    for (int i = 0; i < 4; i++) {
-        pthread_create(&threads[i], NULL, routine, (void*)index);
-        index += 4;
+    int sum = 0;
+    #pragma omp parallel for reduction(+ : sum)
+    {
+        for (int element = 1; element <= 10000; element++)
+            sum += elements[element];
     }
 
-    for (int i = 0; i < 4; i++) {
-        pthread_join(threads[i], NULL);
-    }
-
-    for (int i = 0; i < 16; i++)
-        cout << v3[i] << ' ';
-
-    cout << endl;
-    cout << result;
-
-    pthread_mutex_destroy(&Lock);
-    pthread_exit(NULL);
+    cout << sum;
 
 }
+
 ```
 
 ![Alt text](/images/ass1.png)
