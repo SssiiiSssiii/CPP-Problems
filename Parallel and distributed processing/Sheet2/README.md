@@ -63,7 +63,7 @@ int main() {
 
 ```
 
-![Alt text](/images/S3Q3.png)
+![Alt text](/images/S2Q3.png)
 
 ```c
 #include <bits/stdc++.h>
@@ -92,65 +92,6 @@ int main() {
 ![Alt text](/images/ass1.png)
 
 ```c
-#include <bits/stdc++.h>
-#include <pthread.h>
-using namespace std;
 
-int matrix1[4][4] = {{1,2,3,4},
-                    {1,2,3,4},
-                    {1,2,3,4},
-                    {1,2,3,4}};
-
-int matrix2[4][4] = {{1,2,3,4},
-                     {1,2,3,4},
-                     {1,2,3,4},
-                     {1,2,3,4}};
-
-int summationMatrix[4][4]   = {};
-int subtractionMatrix[4][4] = {};
-
-void* routine(void *arg) {
-
-    int index = intptr_t(arg);
-    for (int i = index; i < 2 + index; i++) {
-        for (int j = 0; j < 4; j++)
-            summationMatrix[i][j] = matrix1[i][j] + matrix2[i][j];
-    }
-    for (int i = index; i < 2 + index; i++) {
-        for (int j = 0; j < 4; j++)
-            subtractionMatrix[i][j] = matrix1[i][j] - matrix2[i][j];
-    }
-}
-
-int main() {
-
-    //Just for example, i used 2 threads to compute the Addition and Subtraction for matrix1 and matrix2
-    pthread_t threads[2];
-    int index = 0;
-
-    for (int i = 0; i < 2; i++) {
-        pthread_create(&threads[i], NULL, routine, (void*)index);
-        index += 2;
-    }
-
-    for (int i = 0; i < 2; i++)
-        pthread_join(threads[i], NULL);
-
-    //Print the result after Addition
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++)
-            cout << summationMatrix[i][j] << ' ';
-            cout << '\n';
-    }
-
-    //Print the result after Subtraction
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++)
-            cout << subtractionMatrix[i][j] << ' ';
-            cout << '\n';
-    }
-
-    pthread_exit(NULL);
-}
 
 ```
