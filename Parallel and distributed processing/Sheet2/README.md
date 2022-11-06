@@ -89,7 +89,7 @@ int main() {
 
 ```
 
-![Alt text](/images/ass1.png)
+![Alt text](/images/ass2.png)
 
 ```c
 
