@@ -1,4 +1,4 @@
-![Alt text](/images/Q1.png)
+![Alt text](/images/S2Q1.png)
 
 ```c
 #include <bits/stdc++.h>
