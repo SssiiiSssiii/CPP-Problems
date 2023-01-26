@@ -48,6 +48,6 @@ https://artofproblemsolving.com/wiki/index.php/Binet%27s_Formula
  ## Sum of even numbers from 1 to n
  ``n*(n+1)``
  ## Sum of range from n to m
- ``((n * m) * (m - n + 1)) / 2``
+ ``((n + m) * (m - n + 1)) / 2``
  
 
