@@ -17,6 +17,8 @@
 ## GCD using built-in function
 __gcd ( `x` ,  `y` )   
 https://codeforces.com/group/T3p02rhrmb/contest/325687/problem/L
+## LCM using GCD
+``(n / GCD) * m``
 
 ## Fibonacci Number in o(1)
 ![Alt text](/images/Binet'sFormula.png)    
