@@ -55,5 +55,6 @@ https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
  if `low` is odd &rarr; ``((high - low) / 2) + 1``                 
  else increment by `1` low then  ``((high - low) / 2) + 1``                             
  https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/2957338/count-odd-numbers-in-an-interval-range/
-  
+  ## Sorting with Lambda
+  https://codeforces.com/blog/entry/92918
 
