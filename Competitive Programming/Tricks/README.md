@@ -39,15 +39,17 @@ https://artofproblemsolving.com/wiki/index.php/Binet%27s_Formula
  ```
   you can use &rarr; cout << ( x == 5  `?` "yes" `:` "no" );   
   
-  ## Sum all values in array using built-in function
-  ```c
-   int sum = accumulate (arr , arr + n , 0); 
-   ```
-   https://cplusplus.com/reference/numeric/accumulate/
- 
  ## Sum of even numbers from 1 to n
  ``n*(n+1)``
+ 
+  ## Sum of odd numbers from 1 to n
+ ``ceil(n / 2) * ceil(n / 2) ``
+ 
  ## Sum of range from n to m or any Arithmetic progression
  ``((n + m) * (m - n + 1)) / 2``
  
+ ## Numbers of odd numbers from low to high
+ if low is odd &rarr; ((high - low) / 2) + 1 
+ else increment low then  ((high - low) / 2) + 1 
+  
 
