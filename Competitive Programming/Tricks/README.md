@@ -40,17 +40,20 @@ https://artofproblemsolving.com/wiki/index.php/Binet%27s_Formula
   you can use &rarr; cout << ( x == 5  `?` "yes" `:` "no" );   
   
  ## Sum of even numbers from 1 to n
- ``n*(n+1)``
+if n is even &rarr; ``(n + 2 / 4) * n``                  
+else decrement n by `1` then ``(n + 2 / 4) * n``           
+https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
  
   ## Sum of odd numbers from 1 to n
  ``ceil(n / 2) * ceil(n / 2) ``
+ 
  
  ## Sum of range from n to m or any Arithmetic progression
  ``((n + m) * (m - n + 1)) / 2``
  
  ## Numbers of odd numbers from low to high 
- if low is odd &rarr; ((high - low) / 2) + 1                 
- else increment low then  ((high - low) / 2) + 1                             
+ if low is odd &rarr; ``((high - low) / 2) + 1``                 
+ else increment by `1` low then  ``((high - low) / 2) + 1``                             
  https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/2957338/count-odd-numbers-in-an-interval-range/
   
 
