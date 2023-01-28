@@ -57,4 +57,13 @@ https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
  https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/2957338/count-odd-numbers-in-an-interval-range/
   ## Sorting with Lambda
   https://codeforces.com/blog/entry/92918
+  ## Number of 1's in the number n (Hamming weight)
+  ```c
+  ones = 0;
+  
+  while (n) {
+    n &= n - 1 
+    ones ++;
+  }
+  ```
 
