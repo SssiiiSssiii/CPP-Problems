@@ -48,8 +48,9 @@ https://artofproblemsolving.com/wiki/index.php/Binet%27s_Formula
  ## Sum of range from n to m or any Arithmetic progression
  ``((n + m) * (m - n + 1)) / 2``
  
- ## Numbers of odd numbers from low to high
- if low is odd &rarr; ((high - low) / 2) + 1 
- else increment low then  ((high - low) / 2) + 1 
+ ## Numbers of odd numbers from low to high 
+ if low is odd &rarr; ((high - low) / 2) + 1                 
+ else increment low then  ((high - low) / 2) + 1                             
+ https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/2957338/count-odd-numbers-in-an-interval-range/
   
 
