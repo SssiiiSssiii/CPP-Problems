@@ -1,5 +1,5 @@
 ## Number of Digits for `n` number
-1 + floor (log10(n))
+`1 + floor (log10(n))`
 
 ## Number of Bits for `n` number
 1 + floor (log2(n))
@@ -39,25 +39,25 @@ https://artofproblemsolving.com/wiki/index.php/Binet%27s_Formula
  ```
   you can use &rarr; cout << ( x == 5  `?` "yes" `:` "no" );   
   
- ## Sum of even numbers from 1 to n
+ ## Sum of even numbers from `1` to `n`
 if `n` is even &rarr; ``(n + 2 / 4) * n``                  
 else decrement n by `1` then ``(n + 2 / 4) * n``           
 https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
  
-  ## Sum of odd numbers from 1 to n
+  ## Sum of odd numbers from `1` to `n`
  ``ceil(n / 2) * ceil(n / 2) ``
  
  
- ## Sum of range from n to m or any Arithmetic progression
+ ## Sum of range from `n` to `m` or any Arithmetic progression
  ``((n + m) * (m - n + 1)) / 2``
  
- ## Numbers of odd numbers from low to high 
+ ## Numbers of odd numbers from `low` to `high` 
  if `low` is odd &rarr; ``((high - low) / 2) + 1``                 
  else increment by `1` low then  ``((high - low) / 2) + 1``                             
  https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/2957338/count-odd-numbers-in-an-interval-range/
   ## Sorting with Lambda
   https://codeforces.com/blog/entry/92918
-  ## Number of 1's in the number n (Hamming weight)
+  ## Number of 1's in the number `n` (Hamming weight)
   ```c
   ones = 0;
   
