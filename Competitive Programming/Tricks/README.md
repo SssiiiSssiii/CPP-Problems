@@ -48,8 +48,8 @@ https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
  ``ceil(n / 2) * ceil(n / 2) ``
  
  
- ## Sum of range from `n` to `m` or any Arithmetic progression
- ``((n + m) * (m - n + 1)) / 2``
+ ## Sum of any Arithmetic progression of `n` numbers
+ ``((a1 + an) / 2) * n``
  
  ## Numbers of odd numbers from `low` to `high` 
  if `low` is odd &rarr; ``((high - low) / 2) + 1``                 
