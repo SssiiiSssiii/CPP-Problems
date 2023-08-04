@@ -68,3 +68,7 @@ https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
   ```
 ## Sum of `geometric` progression
 sn = (a1 * (1 - r ** n)) / (1 - r)
+## Find the n number in the `Arithmetic` progression 
+an = a1 + (n - 1) * diff
+## Find the n number in the `geometric` progression 
+an = a1 * r ^ n - 1
