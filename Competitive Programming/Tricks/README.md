@@ -49,7 +49,7 @@ https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
  
  
  ## Sum of any Arithmetic progression of `n` numbers
- ``((a1 + an) / 2) * n``
+ ``((a1 + an) / 2) * n``                
  https://codeforces.com/problemset/problem/598/A
  
  ## Numbers of odd numbers from `low` to `high` 
