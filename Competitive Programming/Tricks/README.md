@@ -66,6 +66,10 @@ https://codeforces.com/group/mk7Cz9V8Hm/contest/324391/problem/A
     ones ++;
   }
   ```
+or
+```c
+cout << __builtin_popcount(n)
+```
 ## Sum of `geometric` progression
 sn = (a1 * (1 - r ** n)) / (1 - r)
 ## Find the n number in the `Arithmetic` progression 
